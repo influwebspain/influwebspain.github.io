@@ -1,0 +1,69 @@
+body { 
+
+     /* Color de fondo */
+    background-color: #96F7E4; 
+    
+    /* Impedir la repetición */
+    background-repeat: no-repeat;
+    
+    /* Centrar la imagen */
+    background-position: center center;
+    
+    /* Asegurar que rellena completamente */
+    background-size: cover;
+    
+    /* Impedir el desplazamiento del fondo con el scroll */
+    background-attachment: fixed;
+
+    /* Propiedad para centrar el texto  */
+    text-align: center; 
+
+    /* Propiedad para integrar fuente Google  */
+    font-family: "Momo Signature", cursive;
+    font-weight: 100;
+    font-style: normal;  
+}
+
+h1 {
+    /* Color de fondo */
+    background-color: #CCD1D1; 
+
+    /* Color de texto */
+    color: white; 
+
+    /* Borde lateral */
+    border-left: 8px solid red;
+
+}
+
+img {
+    /* Establecer el mismo tamaño en píxeles */
+    width: 600px; 
+    height: 600px; 
+    align= center;
+
+    /* Borde negro */
+    border: 2px solid black;
+
+    /* Borde redondeado */
+    border-radius: 10px; 
+
+    /* Sombreado de la imagen */
+    box-shadow: 5px 5px 10px gray;
+
+}
+
+ul {
+    /* Quita los marcadores de la lista */
+  list-style-type: none; 
+}
+
+li {
+      /* Forzar la aparición en la misma línea */
+  display: inline; 
+
+  /* Añadir un borde que rodee cada elemento (ejemplo) */
+  border: 1px solid black; 
+
+}
+

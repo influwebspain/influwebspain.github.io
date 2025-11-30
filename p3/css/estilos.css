@@ -1,0 +1,164 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #e6dff4;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+#header h1 {
+  border-bottom: 5px solid black;
+  text-align: center;
+  margin: 0;
+  padding: 20px 0;
+  background-color: #d6ceeb;
+}
+
+#content {
+  position: relative; /* Contenedor relativo */
+  width: 90%;
+  margin: 20px auto;
+}
+
+/* Imagen por encima del texto */
+#image img {
+  position: relative;
+  top: 0;           /* Ajusta verticalmente */
+  left: 50%;        /* Centrado horizontal */
+  transform: translateX(0%);
+  z-index: 0;      /* Aparece encima del texto */
+  width: 600px;    /* Tamaño de la imagen */
+  max-width: 100%;  /* No exceda el contenedor en móviles */
+  border: 3px solid gray;
+  padding: 5px;
+  margin-bottom: 20px; /* Espacio debajo de la imagen */
+}
+
+
+
+/* TEXTOS */
+#text p {
+  width: 90%;                 /* Ocupan el 90% del ancho de la ventana */
+  margin: 0 auto 10px auto;   /* Centrado horizontal y separación de 10px */
+  padding: 10px;              /* Distancia interna dentro de la caja */
+  text-indent: 40px;          /* Sangría de 40px en la primera línea */
+  line-height: 1.5;
+  border: 3px dashed black;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.6);
+  background-color: #4b2e83;  /* Morado oscuro */
+  color: white;
+
+}
+
+/* PRIMER PÁRRAFO */
+#text p:first-child {
+  border-radius: 30px 30px 0 0;
+  background-color: #4b2e83;
+  background-image: radial-gradient(circle, #d6ceeb 10%, transparent 10%);
+  background-size: 15px 15px;
+}
+
+/* ÚLTIMO PÁRRAFO */
+#text p:last-child {
+  border-radius: 0 0 30px 30px;
+}
+
+/* MENU */
+#menu {
+  text-align: center;
+  margin: 20px 0;
+}
+
+#menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+}
+
+#menu li {
+  margin: 0 10px;
+}
+
+#menu li a {
+  text-decoration: none;
+  font-weight: bold;
+  padding-left: 10px;          /* Separación de la línea roja */
+  color: white;                 /* Color base, se puede cambiar para cada enlace */
+  border-left: 5px solid red;   /* Línea roja a la izquierda */
+}
+
+/* Hover con subrayado rojo */
+#menu li a:hover {
+  text-decoration: underline;
+  text-decoration-color: red;
+}
+
+/* Color distinto de las palabras */
+#menu li:nth-child(1) a { color: #ff0000; } /* Marcianos */
+#menu li:nth-child(2) a { color: #ff66cc; } /* Quiero salir */
+#menu li:nth-child(3) a { color: #00ff00; } /* Nuevos pobres */
+#menu li:nth-child(4) a { color: #ff9900; } /* Periódico */
+#menu li:nth-child(5) a { color: #9900ff; } /* Trabajo */
+
+/* MEDIA QUERY < 500 PX */
+@media all and (max-width: 500px) {
+  #menu ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #menu li {
+    margin: 5px 0;
+  }
+}
+
+/* PIE DE PÁGINA */
+#footer {
+  border-top: 5px solid black;
+  background-color: #000066;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 200px;           /* Espacio inferior */
+}
+
+#footer a {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  text-decoration: underline;
+}
+
+/* MEDIA QUERY < 500 PX */
+@media all and (max-width: 500px) {
+  #image img {
+    border-color: red;      /* El borde cambia a rojo */
+    width: 90%;             /* La imagen ocupa el 90% del ancho */
+    max-width: 90%;         /* Asegura que no se pase del contenedor */
+    float: none;            /* Elimina el float si existía */
+    display: block;         /* Permite centrarla */
+    margin: 10px auto 20px auto; /* Centrada horizontalmente con separación arriba y abajo */
+    position: static;       /* Para que no esté encima del texto en móviles */
+  }
+}
+
+  #text p {
+    width: 95%;
+  }
+
+  #menu ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #menu li {
+    margin: 5px 0;
+  }
+}

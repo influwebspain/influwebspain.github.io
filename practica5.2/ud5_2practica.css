@@ -1,0 +1,86 @@
+/* 1. Centrar la tarjeta en la pantalla */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+/* 2. La Tarjeta (Contenedor Principal) */
+.card {
+    display: flex;
+    flex-direction: column; /* Elementos uno debajo de otro */
+    gap: 20px;              /* Espacio entre secciones */
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;    /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* La sombra suave */
+}
+
+/* 3. Cabecera (Foto y Nombre) */
+.header {
+    display: flex;
+    align-items: center;    /* Centrado vertical */
+    gap: 15px;              /* Separación foto-texto */
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    background-color: #3498db; /* Azul */
+    border-radius: 50%;     /* Círculo perfecto */
+}
+
+.user-info h3 {
+    margin: 0;              /* Quitar márgenes por defecto del título */
+    margin-bottom: 5px;
+}
+
+.user-info p {
+    margin: 0;
+    color: #666;            /* Gris para el subtítulo */
+}
+
+/* 4. Estadísticas */
+.stats {
+    display: flex;
+    justify-content: space-around; /* Separación equitativa */
+    border-top: 1px solid #eee;    /* Línea gris superior */
+    padding-top: 15px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column; /* Número arriba, texto abajo */
+    align-items: center;
+    font-size: 0.9em;
+}
+
+/* 5. Botones */
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-primary {
+    flex-grow: 2;   /* TRUCO: Crece el doble que el otro */
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    flex-grow: 1;   /* Crece normal */
+    background-color: #ecf0f1;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

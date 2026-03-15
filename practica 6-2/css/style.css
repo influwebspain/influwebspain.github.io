@@ -1,0 +1,83 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.contenedor-principal { width: 100%; max-width: 850px; }
+
+.cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.grid-contenido {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.tarjeta {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    min-height: 250px;
+}
+
+.btn-repartir {
+    background-color: #ff8a80;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#botonAnyadir {
+    background-color: #ffb74d;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.fila-input { display: flex; gap: 10px; margin-top: 8px; }
+
+input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+table { width: 100%; border-collapse: collapse; }
+th {
+    background-color: #ffb74d;
+    text-align: left;
+    padding: 10px;
+}
+td { padding: 10px; border-bottom: 1px solid #eee; }
+
+.item-amigo {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.btn-eliminar {
+    color: #ff8a80;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85em;
+}

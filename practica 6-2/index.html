@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigo Invisible</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+        <header class="cabecera">
+            <div>
+                <h1>Amigo Invisible</h1>
+                <p>Añade participantes y reparte los pares</p>
+            </div>
+            <button id="botonResuelve" class="btn-repartir">Reparte</button>
+        </header>
+
+        <section class="seccion-entrada">
+            <form id="formulario-amigo">
+                <label for="nombre">Nombre del amigo</label>
+                <div class="fila-input">
+                    <input type="text" id="nombre" placeholder="Nombre del amigo">
+                    <button type="submit" id="botonAnyadir">Añadir</button>
+                </div>
+            </form>
+        </section>
+
+        <main class="grid-contenido">
+            <div id="panel" class="tarjeta"></div>
+            
+            <div id="solucion" class="tarjeta"></div>
+        </main>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor Cripto Minimalista</title>
+    <style>
+        /* He elegido un fondo de página suave y una tipografía moderna para que sea agradable a la vista */
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        /* He diseñado esta tarjeta central para que sea limpia y sin sombras exageradas */
+        .contenedor {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4a4a4a;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        /* He agrupado mis controles usando Flexbox en columna para organizar mejor el espacio */
+        .controles {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .fila-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fila-input label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        input[type="number"], select {
+            width: 60%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: #5c6bc0;
+        }
+
+        /* Le he puesto al botón un color de acento índigo que me parece que queda muy profesional */
+        button {
+            background-color: #5c6bc0;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background-color: #3f51b5;
+        }
+
+        /* He rediseñado la lista quitando los puntos y añadiendo líneas separadoras muy sutiles */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .cripto-nombre {
+            font-weight: bold;
+            color: #5c6bc0;
+        }
+        
+        .error {
+            color: #e53935;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+        <h2>Cripto Conversor</h2>
+
+        <div class="controles">
+            <div class="fila-input">
+                <label for="cantidad">Inversión:</label>
+                <input type="number" id="cantidad" value="100" min="1">
+            </div>
+            
+            <div class="fila-input">
+                <label for="monedaBase">Moneda:</label>
+                <select id="monedaBase">
+                    <option value="EUR">Euros (€)</option>
+                    <option value="USD">Dólares ($)</option>
+                    <option value="GBP">Libras (£)</option>
+                </select>
+            </div>
+            
+            <button id="btnConvertir">Calcular</button>
+        </div>
+
+        <ul id="listaResultados">
+            <li style="justify-content: center; color: #999;">Los resultados aparecerán aquí</li>
+        </ul>
+    </div>
+
+    <script>
+        const btnConvertir = document.getElementById('btnConvertir');
+        const inputCantidad = document.getElementById('cantidad');
+        const selectMoneda = document.getElementById('monedaBase');
+        const listaResultados = document.getElementById('listaResultados');
+
+        // He definido este array con las criptomonedas que quiero consultar por defecto
+        const criptomonedas = ['ETH', 'BTC', 'SOL', 'DOGE'];
+
+        btnConvertir.addEventListener('click', () => {
+            const cantidad = parseFloat(inputCantidad.value);
+            const monedaBase = selectMoneda.value; 
+            
+            // He programado esta validación para asegurarme de que la cantidad sea correcta
+            if (isNaN(cantidad) || cantidad <= 0) {
+                listaResultados.innerHTML = '<li class="error">Por favor, introduce una cantidad válida.</li>';
+                return;
+            }
+
+            listaResultados.innerHTML = '<li style="justify-content: center; color: #5c6bc0;">Consultando precios...</li>';
+
+            // Limpio mi lista justo antes de empezar a iterar para que no se acumulen resultados anteriores
+            setTimeout(() => { listaResultados.innerHTML = ''; }, 10);
+
+            criptomonedas.forEach(cripto => {
+                // Aquí construyo dinámicamente la URL de la API de Coinbase para cada cripto
+                const url = `https://api.coinbase.com/v2/prices/${cripto}-${monedaBase}/spot`;
+
+                fetch(url)
+                    .then(response => {
+                        // Compruebo que la red responda bien antes de procesar los datos
+                        if (!response.ok) throw new Error("Error en red");
+                        return response.json(); 
+                    })
+                    .then(json => {
+                        const datos = json.data;
+                        const precioActual = parseFloat(datos.amount);
+                        
+                        // Calculo cuánto se podría comprar con la inversión indicada
+                        const totalComprado = (cantidad / precioActual).toFixed(4);
+
+                        const itemLista = document.createElement('li');
+                        // Inyecto mi propio HTML para cada fila, separando visualmente el nombre del resultado
+                        itemLista.innerHTML = `
+                            <span class="cripto-nombre">${cripto}</span>
+                            <span>${totalComprado} <span style="color:#888; font-size:13px;">(${precioActual} ${monedaBase})</span></span>
+                        `;
+                        
+                        listaResultados.appendChild(itemLista);
+                    })
+                    .catch(error => {
+                        // Si algo falla en alguna moneda, lo registro en mi consola para revisarlo
+                        console.error('He tenido un error al obtener:', cripto, error);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

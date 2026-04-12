@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El tiempo en tu ciudad - Dark Mode</title>
+    <style>
+        /* He definido un diseño oscuro y moderno con estilo Dark Mode */
+        body {
+            background-color: #121212; /* Mi fondo oscuro principal */
+            color: #ffffff; /* Mi texto en color blanco */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .clima-card {
+            background: #1e1e1e; /* Uso una tarjeta algo más clara para que resalte sobre el fondo */
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Le añado una sombra difuminada para dar profundidad */
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #bb86fc; /* Elijo un morado neón como mi color de acento */
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #2c2c2c;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #bb86fc;
+        }
+
+        button {
+            background-color: #bb86fc;
+            color: #121212;
+            border: none;
+            padding: 12px 20px;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #9965f4;
+        }
+
+        /* Este es el contenedor específico que he creado para cumplir con la práctica */
+        #weather {
+            margin-top: 25px;
+            font-size: 18px;
+            line-height: 1.5;
+            background: #2c2c2c;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clima-card">
+        <h1 id="titulo">🌤️ Tu Clima</h1>
+
+        <div>
+            <input type="text" id="city" value="Valencia" placeholder="Escribe una ciudad...">
+            <button id="btnActualizar">Consultar tiempo</button>
+        </div>
+
+        <p id="weather">Esperando datos...</p>
+    </div>
+
+    <script>
+        // 1. Aquí coloco mi API Key real que he obtenido de OpenWeatherMap
+        const API_KEY = '63e3b3b888b0803cea2ac12005ff8819'; 
+
+        // Defino mis constantes para referenciar los elementos del DOM que voy a usar
+        const btnActualizar = document.getElementById('btnActualizar');
+        const inputCity = document.getElementById('city');
+        const weatherElement = document.getElementById('weather');
+        const titulo = document.getElementById('titulo');
+
+        function obtenerClima() {
+            const ciudad = inputCity.value;
+            
+            // Construyo mi URL personalizada con la ciudad, unidades métricas e idioma español
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&units=metric&lang=es&appid=${API_KEY}`;
+
+            weatherElement.innerHTML = "Cargando...";
+            weatherElement.style.color = "#ffffff"; 
+
+            // Lanzo mi petición fetch a la API
+            fetch(url)
+                .then(response => {
+                    // Verifico si la respuesta es correcta para gestionar posibles errores
+                    if (!response.ok) {
+                        throw new Error(`Error en la solicitud: ${response.status}`);
+                    }
+                    return response.json(); 
+                })
+                .then(data => {
+                    // Actualizo mi título dinámicamente según la ciudad encontrada
+                    titulo.textContent = `🌤️ Clima en ${data.name}`;
+
+                    // Extraigo las variables que necesito mostrar según mi guion
+                    const temp = data.main.temp;
+                    const descripcion = data.weather[0].description; 
+                    const humedad = data.main.humidity;
+
+                    // Formateo y muestro los datos finales tal y como espero en el resultado
+                    weatherElement.innerHTML = `Temperatura: <strong>${temp}°C</strong><br>Descripción: <strong>${descripcion}</strong><br>Humedad: <strong>${humedad}%</strong>`;
+                })
+                .catch(error => {
+                    console.log('He detectado un problema con la solicitud:', error);
+                    // Gestiono mi mensaje de error usando un color rojo de alerta visual
+                    weatherElement.innerHTML = `<span style="color:#cf6679;">Error: No he podido encontrar la ciudad o mi API Key es inválida.</span>`;
+                });
+        }
+
+        // Asigno mi función al evento click de mi botón
+        btnActualizar.addEventListener('click', obtenerClima);
+    </script>
+</body>
+</html>

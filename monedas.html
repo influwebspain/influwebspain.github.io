@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Monedas Sencillo</title>
+    <style>
+        /* He optado por un diseño limpio y centrado usando Flexbox para el body */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8; /* He elegido un fondo azul muy claro y suave */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        /* Esta es mi tarjeta principal blanca */
+        .contenedor {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Le he puesto una sombra muy sutil */
+            max-width: 550px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 15px;
+        }
+
+        /* Agrupo mi input y el botón con Flexbox para que queden alineados */
+        .controles {
+            display: flex;
+            gap: 10px;
+            margin: 25px 0;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccd1d9;
+            border-radius: 6px;
+            width: 120px;
+            outline: none;
+        }
+
+        input[type="number"]:focus {
+            border-color: #3498db;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        /* He quitado los puntos por defecto de la lista para que se vea más limpia */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* He creado un estilo de fila despejado para cada moneda */
+        li {
+            background-color: #f8fafc;
+            margin-bottom: 8px;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db; /* Añado un acento de color a la izquierda */
+            font-size: 15px;
+            display: flex;
+            justify-content: space-between; /* Así separo el total de la tasa de cambio */
+            align-items: center;
+        }
+        
+        /* Mi estilo específico para cuando ocurra un error */
+        .error {
+            border-left-color: #e74c3c;
+            color: #e74c3c;
+            font-weight: bold;
+            background-color: #fdf2f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Conversor de Divisas</h1>
+        
+        <div class="controles">
+            <label for="cantidad"><strong>Euros (€):</strong></label>
+            <input type="number" id="cantidad" value="7" min="1">
+            <button id="btnConvertir">Convertir</button>
+        </div>
+
+        <ul id="listaResultados">
+            <li style="border-left-color: #95a5a6; justify-content: center; color: #7f8c8d;">
+                Introduce una cantidad y pulsa convertir
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        const btnConvertir = document.getElementById('btnConvertir');
+        const inputCantidad = document.getElementById('cantidad');
+        const listaResultados = document.getElementById('listaResultados');
+        
+        // Esta es la URL de la API que he seleccionado para obtener los tipos de cambio
+        const url = 'https://api.frankfurter.dev/v1/latest?base=EUR';
+
+        btnConvertir.addEventListener('click', () => {
+            const cantidad = parseFloat(inputCantidad.value);
+            
+            // He programado una validación básica para evitar errores de cálculo
+            if (isNaN(cantidad) || cantidad <= 0) {
+                listaResultados.innerHTML = '<li class="error" style="justify-content: center;">Introduce una cantidad válida.</li>';
+                return;
+            }
+
+            listaResultados.innerHTML = '<li style="border-left-color: #f1c40f; justify-content: center;">Calculando...</li>';
+
+            // Lanzo mi petición de datos a la API
+            fetch(url)
+                .then(response => {
+                    // Verifico que la respuesta sea correcta antes de seguir
+                    if (!response.ok) {
+                        throw new Error(`Error en la petición: ${response.status}`);
+                    }
+                    return response.json(); 
+                })
+                .then(data => {
+                    listaResultados.innerHTML = '';
+                    const tasas = data.rates;
+
+                    // Recorro el objeto JSON transformándolo en un array de pares clave/valor para mi lista
+                    Object.entries(tasas).forEach(([moneda, valorCambio]) => {
+                        const totalCalculado = (cantidad * valorCambio).toFixed(2);
+                        const itemLista = document.createElement('li');
+                        
+                        // He diseñado la información en dos bloques usando etiquetas span para que quede ordenado
+                        itemLista.innerHTML = `
+                            <span><strong>${cantidad} EUR</strong> = <span style="color:#2980b9; font-weight:bold; font-size:16px;">${totalCalculado} ${moneda}</span></span> 
+                            <span style="color:#7f8c8d; font-size:13px;">(Tasa: ${valorCambio})</span>
+                        `;
+                        
+                        listaResultados.appendChild(itemLista);
+                    });
+                })
+                .catch(error => {
+                    // Si algo falla, capturo el error y lo muestro al usuario
+                    console.error('He detectado un error:', error);
+                    listaResultados.innerHTML = `<li class="error" style="justify-content: center;">Error al obtener las monedas de la API.</li>`;
+                });
+        });
+    </script>
+</body>
+</html>

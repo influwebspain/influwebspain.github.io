@@ -1,0 +1,152 @@
+:root {
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --text: #1f2937;
+  --muted: #64748b;
+  --primary: #1f2937;
+  --accent: #14b8a6;
+  --border: #e5e7eb;
+  --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(20, 184, 166, 0.08), transparent 30%),
+    var(--bg);
+  color: var(--text);
+}
+
+h1 {
+  margin: 28px 0 18px;
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--primary);
+}
+
+.main-container {
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+#getStations {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 24px;
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#getStations:hover {
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+.flex-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+#results,
+#map {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+#results {
+  padding: 14px;
+  overflow-x: auto;
+  min-height: 420px;
+  max-height: 70vh;
+}
+
+#map {
+  height: 420px;
+  min-height: 420px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  color: var(--primary);
+  z-index: 1;
+  font-weight: 700;
+}
+
+tr:nth-child(even) td {
+  background: var(--surface-2);
+}
+
+tr:hover td {
+  background: rgba(20, 184, 166, 0.06);
+}
+
+.popup-content h4 {
+  margin: 0 0 10px;
+  color: var(--accent);
+}
+
+.popup-content ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+@media (min-width: 980px) {
+  .flex-content {
+    grid-template-columns: minmax(0, 1.25fr) minmax(380px, 0.95fr);
+  }
+
+  #results {
+    max-height: 72vh;
+  }
+
+  #map {
+    height: 72vh;
+    min-height: 560px;
+    position: sticky;
+    top: 16px;
+  }
+}
